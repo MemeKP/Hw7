@@ -169,26 +169,26 @@ public class AVLTree extends BTreePrinter{
     // Fix this function to have the rebalancing feature
     // There should be rebalance() function calling somewhere in the code
     public static void insertKey(AVLTree tree, Node node, int key) {
-        if (key == node.key) {
+        if (key == node.key) { // ตรวจสอบว่าคีย์ที่ต้องการแทรกมีค่าเท่ากับคีย์ของโหนดปัจจุบันหรือไม่
             System.out.println("Duplicated key:" + key);
-            return;
+            return; //ถ้าเท่ากันจะหยุดการทำงานทันที
         }else if (key < node.key) {//Go left
-            if (node.left == null) {
-                node.left = new Node(key);
-                node.left.parent = node;
-                rebalance(tree, node);
+            if (node.left == null) { //ถ้าลูกทางซ้ายเป็น null
+                node.left = new Node(key); // สร้างโหนดใหม่ด้วยคีย์ที่ต้องการแทรกและตั้งเป็นลูกซ้ายของโหนดปัจจุบัน
+                node.left.parent = node; //เปลี่ยน parent ใหม่
+                rebalance(tree, node); //เรียกใช้ rebalance เพิ่มปรับสมดุลต้นไม้ใหม่
             }else {
-                insertKey(tree, node.left, key);
-                rebalance(tree, node);
+                insertKey(tree, node.left, key); //ถ้าไม่จะใช้ insertKey แทน เพื่อแทนกใน subtree ซ้าย
+                rebalance(tree, node); //แล้ว rebalance 
             }
         }else{  // Go right
-            if (node.right == null) {
-                node.right = new Node(key);
-                node.right.parent = node;
-                rebalance(tree, node);
-            }else {
-                insertKey(tree, node.right, key);
-                rebalance(tree, node);
+            if (node.right == null) { //ถ้าลูกทางขวาเป็น null
+                node.right = new Node(key); //สร้างโหนดใหม่ด้วยคีย์ที่ต้องการแทรกและตั้งเป็นลูกขวาของโหนดปัจจุบัน
+                node.right.parent = node; //ตั้ง parent ใหม่
+                rebalance(tree, node);  //แล้ว rebalance 
+            }else { //ถ้าไม่
+                insertKey(tree, node.right, key); //ถ้าไม่จะใช้ insertKey แทน เพื่อแทนกใน subtree ขวา
+                rebalance(tree, node); //แล้ว rebalance อีกครั้ง
             }
         }
     }
