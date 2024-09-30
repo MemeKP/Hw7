@@ -6,9 +6,9 @@ public class BSTree extends BTreePrinter{
             return;
         }
         
-        Node x = y.left;
-        Node z = x.right;
-        Node w = y.parent;
+        Node x = y.left; // ให้โหนด x เป็นลูกซ้ายของ y
+        Node z = x.right; // ให้โหนด w คือparentของ y
+        Node w = y.parent; // ให้โหนด z เป็นลูกขวาของ x
         
         // Step 1: Right rotation on y.left (x)
         x.right = z.left;
@@ -16,23 +16,23 @@ public class BSTree extends BTreePrinter{
             x.right.parent = x; // Update parent reference of the moved subtree
         }
         
-        z.left = x;
-        x.parent = z;
+        z.left = x; // ตั้งค่า x เป็นลูกซ้ายของ z
+        x.parent = z; // ตั้งค่า z เป็นพ่อแม่ของ x
         
         // Step 2: Left rotation on y
-        y.left = z.right;
+        y.left = z.right; // ตั้งค่าลูกซ้ายของ y เป็นลูกขวาของ z
         if (y.left != null) {
             y.left.parent = y; // Update parent reference
         }
-        z.right = y;
-        y.parent = z;
+        z.right = y; // ตั้งค่า y เป็นลูกขวาของ z
+        y.parent = z; // ตั้งค่า z เป็นพ่อแม่ของ y
 
         // Update parent references
-        if (w != null) {
+        if (w != null) { //ถ้า y มี parent
             if (w.left == y) {
-                w.left = z;
+                w.left = z; // ถ้า y เป็นลูกซ้ายของ w, ให้ z เป็นลูกซ้ายของ w
             } else {
-                w.right = z;
+                w.right = z; // ถ้า y เป็นลูกขวาของ w, ให้ z เป็นลูกขวาของ w
             }
             z.parent = w;
         } else {
@@ -42,8 +42,9 @@ public class BSTree extends BTreePrinter{
     }
 
     public void doubleRotateFromRight(Node y) {
+        // ตรวจสอบว่า y หรือ ลูกขวาของ y หรือ ลูกซ้ายของลูกขวาของ y เป็น null หรือไม่
         if (y == null || y.right == null || y.right.left == null) {
-            return;
+            return; // ถ้าใช่จะหยุดทำงานทันที
         }
 
         Node x = y.right;  // Right child of y
@@ -51,42 +52,42 @@ public class BSTree extends BTreePrinter{
         Node w = y.parent; // Parent of y
 
         // Step 1: Left rotation on y.right (x)
-        x.left = z.right;
+        x.left = z.right; // ให้ลูกซ้ายของ x เป็นลูกขวาของ z
         if (x.left != null) {
             x.left.parent = x; // Update parent reference of the moved subtree
         }
 
-        z.right = x;
-        x.parent = z;
+        z.right = x; // ให้ลูกขวาของ z เป็น x
+        x.parent = z; // ตั้ง parent ของ x เป็น z
 
         // Step 2: Right rotation on y
-        y.right = z.left;
+        y.right = z.left; // ให้ลูกขวาของ y เป็นลูกซ้ายของ z
         if (y.right != null) {
             y.right.parent = y; // Update parent reference
         }
 
-        z.left = y;
-        y.parent = z;
+        z.left = y; // ให้ลูกซ้ายของ z เป็น y
+        y.parent = z; // ตั้งพ่อแม่ของ y เป็น z
 
         // Update parent references
-        if (w != null) {
-            if (w.right == y) {
-                w.right = z;
+        if (w != null) { //ถ้า y มี parent ก่อนหน้า
+            if (w.right == y) { // ถ้า y เป็นลูกขวาของ w
+                w.right = z; 
             } else {
-                w.left = z;
+                w.left = z; // ให้ลูกซ้ายของ w เป็น z
             }
-            z.parent = w;
-        } else {
-            root = z;
-            z.parent = null;
+            z.parent = w; //ให้ parent ของ z ให้เป็น w
+        } else { //ถ้าไม่
+            root = z; //ให้ z เป็น root
+            z.parent = null; //แล้ว parent เป็น null
         }
     }
     
     public void insertKey(int key) {
-        if (root == null) {
-            root = new Node(key);
+        if (root == null) {  // ตรวจสอบว่าต้นไม้ว่างหรือไม่
+            root = new Node(key); // หากว่าง ให้สร้างโหนดใหม่เป็นรากของต้นไม้
         } else {
-            Main.insertKey(root, key);
+            Main.insertKey(root, key); // หากไม่ว่างให้เรียกใช้ insertKey จาก main แทน
         }
     }
     
